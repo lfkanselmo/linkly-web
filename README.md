@@ -1,59 +1,37 @@
-# LinklyWeb
+# linkly-web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.8.
+Dashboard de Linkly: acortar URLs, ver el código QR, copiar el link y revisar la analítica de
+clics. Angular 21, standalone, Signals — sin NgRx ni Angular Material, con un sistema de
+componentes propio ("Voltaje", violeta eléctrico). El diseño completo está en
+[`SAD_Linkly_Acortador_Analitica.md`](../SAD_Linkly_Acortador_Analitica.md).
 
-## Development server
+## Desarrollo local
 
-To start a local development server, run:
+Necesita `linkly-api` corriendo en `http://localhost:8080` (ver su propio README) con CORS
+habilitado para `http://localhost:4200`, que es el default.
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abrir `http://localhost:4200`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Tests y build
 
 ```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+ng lint
+ng test
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+`ng test` corre con Vitest sobre jsdom — hay dos polyfills en `src/test-setup.ts`
+(`matchMedia`, `ResizeObserver`) porque jsdom no los implementa y el `ThemeService` y
+`ngx-echarts` los necesitan.
 
-## Running unit tests
+## Variables de entorno
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+La URL de la API se resuelve en tiempo de build, no en tiempo de ejecución — es una SPA estática
+sin backend propio. En desarrollo usa `src/environments/environment.ts`
+(`http://localhost:8080/api/v1`); en el build de Docker, el `Dockerfile` reemplaza el placeholder
+de `src/environments/environment.prod.ts` con el build arg `API_BASE_URL`.
