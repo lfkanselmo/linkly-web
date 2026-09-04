@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -9,7 +10,7 @@ import { Card } from '../../shared/components/card/card';
 
 @Component({
   selector: 'app-my-links',
-  imports: [Card],
+  imports: [Card, RouterLink],
   templateUrl: './my-links.html',
   styleUrl: './my-links.scss',
 })

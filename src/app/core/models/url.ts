@@ -19,3 +19,24 @@ export interface UrlMetadataResponse {
   expiresAt: string | null;
   totalClicks: number;
 }
+
+export interface ClickCountByPeriod {
+  periodStart: string;
+  count: number;
+}
+
+export interface TopValue {
+  value: string;
+  count: number;
+}
+
+export interface StatsResponse {
+  totalClicks: number;
+  series: ClickCountByPeriod[];
+  topBrowsers: TopValue[];
+  topOperatingSystems: TopValue[];
+  topCountries: TopValue[];
+  topReferrers: TopValue[];
+}
+
+export type StatsPeriod = 'day' | 'week' | 'month';

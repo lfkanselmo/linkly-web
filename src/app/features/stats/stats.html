@@ -1,0 +1,50 @@
+<section class="stats-page">
+  @if (loading()) {
+    <p class="empty">Cargando…</p>
+  } @else if (notFound()) {
+    <p class="empty">No encontramos ese link.</p>
+  } @else {
+    <header class="stats-page__head">
+      <p class="eyebrow">{{ shortCode }}</p>
+      <h1>{{ stats()?.totalClicks }} clics totales</h1>
+      <p class="original">{{ metadata()?.originalUrl }}</p>
+      @if (isExpired()) {
+        <span class="badge badge--expired">Expirado</span>
+      }
+    </header>
+
+    @if (!hasClicks()) {
+      <app-card>
+        <p class="empty">Todavía no tiene clics registrados.</p>
+      </app-card>
+    } @else {
+      <app-card>
+        <h2>Clics por día</h2>
+        @if (seriesOptions(); as options) {
+          <div echarts [options]="options" class="chart chart--wide"></div>
+        }
+      </app-card>
+
+      <div class="stats-grid">
+        <app-card>
+          <h2>Navegadores</h2>
+          @if (browserOptions(); as options) {
+            <div echarts [options]="options" class="chart"></div>
+          }
+        </app-card>
+        <app-card>
+          <h2>Sistemas operativos</h2>
+          @if (osOptions(); as options) {
+            <div echarts [options]="options" class="chart"></div>
+          }
+        </app-card>
+        <app-card>
+          <h2>Países</h2>
+          @if (countryOptions(); as options) {
+            <div echarts [options]="options" class="chart"></div>
+          }
+        </app-card>
+      </div>
+    }
+  }
+</section>

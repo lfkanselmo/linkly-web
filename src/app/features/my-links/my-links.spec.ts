@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { MyLinks } from './my-links';
 
@@ -15,7 +16,7 @@ describe('MyLinks', () => {
   it('shows an empty message when nothing was shortened in this browser', async () => {
     await TestBed.configureTestingModule({
       imports: [MyLinks],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyLinks);
@@ -30,7 +31,7 @@ describe('MyLinks', () => {
 
     await TestBed.configureTestingModule({
       imports: [MyLinks],
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MyLinks);

@@ -1,0 +1,76 @@
+.stats-page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stats-page__head {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stats-page h1 {
+  font-size: clamp(24px, 4vw, 32px);
+  font-variant-numeric: tabular-nums;
+}
+
+.original {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 60ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.badge--expired {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.stats-page h2 {
+  font-size: 15px;
+  margin: 0 0 var(--space-3);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.chart {
+  height: 200px;
+}
+
+.chart--wide {
+  height: 260px;
+}

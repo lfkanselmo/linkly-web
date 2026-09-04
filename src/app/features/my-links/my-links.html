@@ -11,15 +11,17 @@
   } @else {
     <div class="links-grid">
       @for (link of links(); track link.shortCode) {
-        <app-card>
-          <div class="link-row">
-            <div class="link-row__info">
-              <p class="link-row__code">{{ link.shortCode }}</p>
-              <p class="link-row__original">{{ link.originalUrl }}</p>
+        <a class="link-row-link" [routerLink]="['/stats', link.shortCode]">
+          <app-card>
+            <div class="link-row">
+              <div class="link-row__info">
+                <p class="link-row__code">{{ link.shortCode }}</p>
+                <p class="link-row__original">{{ link.originalUrl }}</p>
+              </div>
+              <p class="link-row__clicks">{{ link.totalClicks }} clics</p>
             </div>
-            <p class="link-row__clicks">{{ link.totalClicks }} clics</p>
-          </div>
-        </app-card>
+          </app-card>
+        </a>
       }
     </div>
   }
