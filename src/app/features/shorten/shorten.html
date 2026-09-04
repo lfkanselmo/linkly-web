@@ -1,0 +1,39 @@
+<section class="shorten-page">
+  <header class="shorten-page__head">
+    <p class="eyebrow">Acortador</p>
+    <h1>Convertí un link largo en uno corto</h1>
+  </header>
+
+  @if (result(); as response) {
+    <app-card>
+      <div class="result">
+        <canvas #qrCanvas class="result__qr"></canvas>
+        <div class="result__info">
+          <a class="result__link" [href]="response.shortUrl" target="_blank" rel="noopener">{{ response.shortUrl }}</a>
+          <p class="result__original">{{ response.originalUrl }}</p>
+          <div class="result__actions">
+            <app-button variant="secondary" (click)="copyLink()">{{ copied() ? '¡Copiado!' : 'Copiar' }}</app-button>
+            <app-button variant="ghost" (click)="reset()">Acortar otro</app-button>
+          </div>
+        </div>
+      </div>
+    </app-card>
+  } @else {
+    <app-card>
+      <form class="shorten-form" (submit)="handleSubmit($event)">
+        <app-input-field
+          label="URL a acortar"
+          type="url"
+          placeholder="https://tu-sitio.com/una-url-eterna-y-dificil-de-recordar"
+          [(value)]="originalUrl"
+          [error]="error()"
+        />
+        <div class="shorten-form__row">
+          <app-input-field label="Alias personalizado (opcional)" placeholder="mi-alias" [(value)]="customCode" />
+          <app-select-field label="Expira" [options]="expirationOptions" [(value)]="expiration" />
+        </div>
+        <app-button type="submit" [loading]="loading()">Acortar</app-button>
+      </form>
+    </app-card>
+  }
+</section>

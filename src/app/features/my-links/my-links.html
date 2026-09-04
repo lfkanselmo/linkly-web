@@ -1,0 +1,26 @@
+<section class="my-links-page">
+  <header>
+    <p class="eyebrow">Tus links</p>
+    <h1>Mis links</h1>
+  </header>
+
+  @if (loading()) {
+    <p class="empty">Cargando…</p>
+  } @else if (links().length === 0) {
+    <p class="empty">Todavía no acortaste ningún link en este navegador.</p>
+  } @else {
+    <div class="links-grid">
+      @for (link of links(); track link.shortCode) {
+        <app-card>
+          <div class="link-row">
+            <div class="link-row__info">
+              <p class="link-row__code">{{ link.shortCode }}</p>
+              <p class="link-row__original">{{ link.originalUrl }}</p>
+            </div>
+            <p class="link-row__clicks">{{ link.totalClicks }} clics</p>
+          </div>
+        </app-card>
+      }
+    </div>
+  }
+</section>
