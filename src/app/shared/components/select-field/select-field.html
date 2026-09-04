@@ -1,0 +1,33 @@
+<div class="select">
+  @if (label()) {
+    <span class="select__label">{{ label() }}</span>
+  }
+  <button type="button" class="select__trigger" [class.select__trigger--open]="isOpen()" (click)="toggle()">
+    <span>{{ selectedLabel }}</span>
+    <svg class="select__chevron" viewBox="0 0 12 12" fill="none">
+      <path
+        d="M2.5 4.5 6 8l3.5-3.5"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+  @if (isOpen()) {
+    <ul class="select__menu">
+      @for (option of options(); track option.value) {
+        <li>
+          <button
+            type="button"
+            class="select__option"
+            [class.select__option--active]="option.value === value()"
+            (click)="select(option)"
+          >
+            {{ option.label }}
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</div>

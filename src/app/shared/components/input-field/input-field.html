@@ -1,0 +1,17 @@
+<label class="field">
+  @if (label()) {
+    <span class="field__label">{{ label() }}</span>
+  }
+  <input
+    class="field__control"
+    [class.field__control--error]="error()"
+    [type]="type()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [value]="value()"
+    (input)="value.set($any($event.target).value)"
+  />
+  @if (error()) {
+    <span class="field__error">{{ error() }}</span>
+  }
+</label>
