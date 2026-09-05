@@ -5,6 +5,8 @@ import { GridComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { StatsResponse, UrlMetadataResponse } from '../../core/models/url';
 import { ThemeService } from '../../core/services/theme';
@@ -39,36 +41,41 @@ export class Stats {
     return expiresAt !== null && expiresAt !== undefined && new Date(expiresAt) < new Date();
   });
 
-  protected readonly seriesOptions = computed(() => this.buildOptions((data) => seriesLineOptions(data.series, readChartColors())));
+  private readonly chartColors = computed(() => {
+    this.theme.isDark();
+    return readChartColors();
+  });
+
+  protected readonly seriesOptions = computed(() => this.buildOptions((data) => seriesLineOptions(data.series, this.chartColors())));
   protected readonly browserOptions = computed(() =>
-    this.buildOptions((data) => topValuesBarOptions(data.topBrowsers, readChartColors())),
+    this.buildOptions((data) => topValuesBarOptions(data.topBrowsers, this.chartColors())),
   );
   protected readonly osOptions = computed(() =>
-    this.buildOptions((data) => topValuesBarOptions(data.topOperatingSystems, readChartColors())),
+    this.buildOptions((data) => topValuesBarOptions(data.topOperatingSystems, this.chartColors())),
   );
   protected readonly countryOptions = computed(() =>
-    this.buildOptions((data) => topValuesBarOptions(data.topCountries, readChartColors())),
+    this.buildOptions((data) => topValuesBarOptions(data.topCountries, this.chartColors())),
   );
 
   constructor() {
-    this.urlService.getMetadata(this.shortCode).subscribe({
-      next: (metadata) => this.metadata.set(metadata),
-      error: () => this.notFound.set(true),
-    });
-    this.urlService.getStats(this.shortCode, 'day').subscribe({
-      next: (stats) => {
-        this.stats.set(stats);
-        this.loading.set(false);
-      },
-      error: () => {
+    forkJoin({
+      metadata: this.urlService.getMetadata(this.shortCode).pipe(
+        map((value) => ({ found: true as const, value })),
+        catchError(() => of({ found: false as const })),
+      ),
+      stats: this.urlService.getStats(this.shortCode, 'day').pipe(catchError(() => of(null))),
+    }).subscribe(({ metadata, stats }) => {
+      if (metadata.found) {
+        this.metadata.set(metadata.value);
+      } else {
         this.notFound.set(true);
-        this.loading.set(false);
-      },
+      }
+      this.stats.set(stats);
+      this.loading.set(false);
     });
   }
 
   private buildOptions<T>(build: (data: StatsResponse) => T): T | null {
-    this.theme.isDark();
     const data = this.stats();
     return data ? build(data) : null;
   }

@@ -26,12 +26,14 @@
           type="url"
           placeholder="https://tu-sitio.com/una-url-eterna-y-dificil-de-recordar"
           [(value)]="originalUrl"
-          [error]="error()"
         />
         <div class="shorten-form__row">
           <app-input-field label="Alias personalizado (opcional)" placeholder="mi-alias" [(value)]="customCode" />
           <app-select-field label="Expira" [options]="expirationOptions" [(value)]="expiration" />
         </div>
+        @if (error(); as message) {
+          <p class="shorten-form__error">{{ message }}</p>
+        }
         <app-button type="submit" [loading]="loading()">Acortar</app-button>
       </form>
     </app-card>

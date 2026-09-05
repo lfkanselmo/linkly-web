@@ -69,7 +69,7 @@ describe('Shorten', () => {
     req.flush('originalUrl must not point back to Linkly', { status: 400, statusText: 'Bad Request' });
     fixture.detectChanges();
 
-    const error = fixture.nativeElement.querySelector('.field__error');
+    const error = fixture.nativeElement.querySelector('.shorten-form__error');
     expect(error?.textContent).toContain('originalUrl');
   });
 });

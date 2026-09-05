@@ -53,7 +53,7 @@ export class Shorten {
 
   copyLink(): void {
     const response = this.result();
-    if (!response) {
+    if (!response || !navigator.clipboard) {
       return;
     }
     navigator.clipboard.writeText(response.shortUrl).then(() => {
